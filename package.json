@@ -1,0 +1,26 @@
+{
+  "name": "code-magic",
+  "version": "1.0.0",
+  "description": "Test repo for JS lessons",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "eslint": "4.2.0",
+    "eslint-config-htmlacademy": "0.3.x",
+    "gulp": "^4.0.2"
+  },
+  "scripts": {
+    "test": "eslint js/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wrgraff/code-magic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wrgraff/code-magic/issues"
+  },
+  "homepage": "https://github.com/wrgraff/code-magic#readme"
+}
