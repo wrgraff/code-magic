@@ -1,6 +1,56 @@
-var setupWindow = document.querySelector('.setup');
-setupWindow.classList.remove('hidden');
+// Elements
+var setupWindow = document.querySelector('.setup')
+	setupButtonOpen = document.querySelector('.setup-open-icon'),
+	setupButtonClose = setupWindow.querySelector('.setup-close'),
+	setupNameInput = setupWindow.querySelector('.setup-user-name');
 
+// Open and close buttons clicks
+setupButtonOpen.addEventListener('click', openSetupWindow);
+setupButtonClose.addEventListener('click', closeSetupWindow);
+// Open and close button click by enter key
+setupButtonOpen.addEventListener('keydown', (evt) => {
+	if (evt.keyCode == 13) {
+		openSetupWindow();
+	};
+});
+setupButtonClose.addEventListener('keydown', (evt) => {
+	if (evt.keyCode == 13) {
+		closeSetupWindow();
+	};
+});
+setupNameInput.addEventListener('keydown', (evt) => {
+	evt.stopPropagation();
+});
+// Close window with esc key
+function setupWindowCloseHandler(evt) {
+	if (evt.keyCode == 27) {
+		closeSetupWindow();
+	};
+};
+// Open and close functions
+function openSetupWindow() {
+	setupWindow.classList.remove('hidden');
+	document.addEventListener('keydown', setupWindowCloseHandler);
+};
+function closeSetupWindow() {
+	setupWindow.classList.add('hidden');
+	document.removeEventListener('keydown', setupWindowCloseHandler);
+};
+
+// Validation name input
+setupNameInput.addEventListener('invalid', function(evt) {
+	if (setupNameInput.validity.tooShort) {
+		setupNameInput.setCustomValidity('Имя волшебника должно быть больше 2-х символов');
+	} else if (setupNameInput.validity.tooLong) {
+		setupNameInput.setCustomValidity('Имя волшебника должно быть меньше 25-ти символов');
+	} else if (setupNameInput.validity.valueMissing) {
+		setupNameInput.setCustomValidity('Имя волшебника обязательно для заполнения');
+	} else {
+		setupNameInput.setCustomValidity('');
+	};
+});
+
+// Setup wizards
 var names = [
 	'Иван',
 	'Хуан Себастьян',
@@ -35,12 +85,51 @@ eyesColors = [
 	'blue',
 	'yellow',
 	'green'
+],
+fireballColors = [
+	'#ee4830',
+	'#30a8ee',
+	'#5ce6c0',
+	'#e848d5',
+	'#e6e848'
 ];
 
-var wizardsList = createWizardsList(4);
+var wizardCoat = document.querySelector('.wizard-coat'),
+	wizardEyes = document.querySelector('.wizard-eyes'),
+	wizardFireball = document.querySelector('.setup-fireball-wrap'),
+	wizardFireballInput = wizardFireball.querySelector('input');
+
+var wizardCoatIndex = 0,
+	wizardEyesIndex = 0,
+	wizardFireballIndex = 0;
+
+wizardCoat.addEventListener('click', () => {
+	if (wizardCoatIndex >= coatColors.length - 1) {
+		wizardCoatIndex = -1;
+	};
+	wizardCoat.style.fill = coatColors[++wizardCoatIndex];
+});
+wizardEyes.addEventListener('click', () => {
+	if (wizardEyesIndex >= eyesColors.length - 1) {
+		wizardEyesIndex = -1;
+	};
+	wizardEyes.style.fill = eyesColors[++wizardEyesIndex];
+});
+wizardFireball.addEventListener('click', () => {
+	if (wizardFireballIndex >= fireballColors.length - 1) {
+		wizardFireballIndex = -1;
+	};
+	wizardFireball.style.backgroundColor = fireballColors[++wizardFireballIndex];
+	wizardFireballInput.value = fireballColors[wizardFireballIndex];
+});
+
+
+// Create wizards list
+var wizardsList = createWizardsList(4, cloneArray(names), cloneArray(surnames), cloneArray(coatColors), cloneArray(eyesColors));
+// Add wizards list on page
 appendWizards();
 
-function createWizardsList(count) {
+function createWizardsList(count, names, surnames, coatColors, eyesColors) {
 	var wizardsList = [];
 
 	for (var i = 0; i < count; i++) {
@@ -76,4 +165,8 @@ function getRandomItem(array) {
 	var result = array[index];
 	array.splice(index, 1);
 	return result;
+};
+
+function cloneArray(array) {
+	return array.slice(0, array.length);
 };
