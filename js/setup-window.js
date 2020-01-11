@@ -18,12 +18,11 @@
 		window.util.isEnterEvent(evt, closeSetupWindow);
 	});
 
-	// Close window with esc key
+	// Open and close functions
+ 	// Close window with esc key
 	function setupWindowCloseHandler(evt) {
 		window.util.isEscEvent(evt, closeSetupWindow);
 	};
-
-	// Open and close functions
 	function openSetupWindow() {
 		setupWindow.classList.remove('hidden');
 
