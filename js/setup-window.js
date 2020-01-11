@@ -35,4 +35,53 @@
 		setupWindow.classList.add('hidden');
 		document.removeEventListener('keydown', setupWindowCloseHandler);
 	};
+
+	// Draggable window
+	var dragHandler = document.querySelector('.setup-user .upload');
+
+	dragHandler.addEventListener('mousedown', (evt) => {
+		evt.preventDefault();
+		var dragged = false;
+
+		document.addEventListener('mousemove', moveMouseHandler);
+		document.addEventListener('mouseup', upMouseHandler);
+
+		var currentPosition = {
+			top: evt.clientY,
+			left: evt.clientX,
+		};
+
+
+		function moveMouseHandler(moveEvt) {
+			moveEvt.preventDefault();
+
+			dragged = true;
+			var shift = {
+				top: moveEvt.clientY - currentPosition.top,
+				left: moveEvt.clientX - currentPosition.left,
+			};
+			currentPosition = {
+				top: moveEvt.clientY,
+				left: moveEvt.clientX,
+			};
+
+			setupWindow.style.left = setupWindow.offsetLeft + shift.left + 'px';
+			setupWindow.style.top = setupWindow.offsetTop + shift.top + 'px';
+		};
+
+		function upMouseHandler(upEvt) {
+			upEvt.preventDefault();
+			document.removeEventListener('mousemove', moveMouseHandler);
+			document.removeEventListener('mouseup', upMouseHandler);
+
+			if (dragged) {
+				dragHandler.addEventListener('click', clickUploadHandler);
+
+				function clickUploadHandler(evt) {
+					evt.preventDefault();
+					dragHandler.removeEventListener('click', clickUploadHandler);
+				};
+			};
+		};
+	});
 })();
