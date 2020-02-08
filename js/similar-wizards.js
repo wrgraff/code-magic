@@ -7,15 +7,22 @@
 		var similarWizardsWindow = document.querySelector('.setup-similar');
 		var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-		var wizardsList = window.data.wizards;
-		for (var i = 0; i < wizardsList.length; i++) {
-			var wizardContainer = wizardTemplate.cloneNode(true);
+		window.backend.load(successHandler, errorHandler);
 
-			wizardContainer.querySelector('.setup-similar-label').textContent = wizardsList[i].name;
-			wizardContainer.querySelector('.wizard-coat').style.fill = wizardsList[i].coat;
-			wizardContainer.querySelector('.wizard-eyes').style.fill = wizardsList[i].eyes;
+		function successHandler(data) {
+			for (var i = 0; i < 4; i++) {
+				var wizardContainer = wizardTemplate.cloneNode(true);
+	
+				wizardContainer.querySelector('.setup-similar-label').textContent = data[i].name;
+				wizardContainer.querySelector('.wizard-coat').style.fill = data[i].colorCoat;
+				wizardContainer.querySelector('.wizard-eyes').style.fill = data[i].colorEyes;
+	
+				wizardsContainer.append(wizardContainer);
+			};
+		};
 
-			wizardsContainer.append(wizardContainer);
+		function errorHandler(errorText) {
+			console.log(errorText);
 		};
 
 		similarWizardsWindow.classList.remove('hidden');

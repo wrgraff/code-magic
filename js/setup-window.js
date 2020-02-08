@@ -4,11 +4,20 @@
 	var setupWindow = document.querySelector('.setup'),
 		setupButtonOpen = document.querySelector('.setup-open-icon'),
 		setupButtonClose = setupWindow.querySelector('.setup-close'),
+		setupForm = setupWindow.querySelector('.setup-wizard-form'),
 		setupNameInput = setupWindow.querySelector('.setup-user-name');
 
 	// Open and close buttons clicks
 	setupButtonOpen.addEventListener('click', openSetupWindow);
 	setupButtonClose.addEventListener('click', closeSetupWindow);
+
+	// Submit action
+	setupForm.addEventListener('submit', function(evt) {
+		window.backend.save(new FormData(setupForm), closeSetupWindow, function(errorText) {
+			console.log(errorText);
+		});
+		evt.preventDefault();
+	});
 
 	// Open and close button click by enter key
 	setupButtonOpen.addEventListener('keydown', (evt) => {
